@@ -54,8 +54,6 @@ $(foreach f,$(wildcard $(LOCAL_PATH)/rootdir/bin/*.sh),\
 PRODUCT_PACKAGES += \
     com.android.nfc_extras \
     Tag \
-    SecureElement \
-    NfcNci \
     android.hardware.nfc@1.2-service
 
 PRODUCT_COPY_FILES += \

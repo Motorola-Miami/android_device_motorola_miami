@@ -17,21 +17,44 @@
 
 #include "BiometricsFingerprint.h"
 
-#include <android-base/logging.h>
 #include <android-base/file.h>
-#include <fstream>
-#include <cmath>
-#include <thread>
-
-#include <chrono>
+#include <android-base/logging.h>
 #include <fcntl.h>
 #include <poll.h>
+#include <sys/ioctl.h>
 #include <sys/stat.h>
 
-#define NOTIFY_FINGER_UP IMotFodEventType::FINGER_UP
-#define NOTIFY_FINGER_DOWN IMotFodEventType::FINGER_DOWN
+#include <chrono>
+#include <cmath>
+#include <fstream>
+#include <thread>
 
-#define FOD_HBM_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_hbm"
+#include <display/drm/sde_drm.h>
+
+enum HBM_STATE { OFF = 0, ON = 2 };
+
+void setHbmState(int state) {
+    struct panel_param_info param_info;
+    int32_t node = open("/dev/dri/card0", O_RDWR);
+    int32_t ret = 0;
+
+    if (node < 0) {
+        LOG(ERROR) << "Failed to get card0!";
+        return;
+    }
+
+    param_info.param_idx = PARAM_HBM;
+    param_info.value = state;
+
+    ret = ioctl(node, DRM_IOCTL_SET_PANEL_FEATURE, &param_info);
+    if (ret < 0) {
+        LOG(ERROR) << "IOCTL call failed with ret = " << ret;
+    } else {
+        LOG(INFO) << "HBM state set successfully. New state: " << state;
+    }
+
+    close(node);
+}
 
 namespace android {
 namespace hardware {
@@ -40,43 +63,13 @@ namespace fingerprint {
 namespace V2_3 {
 namespace implementation {
 
-void setFodHbm(bool status) {
-    android::base::WriteStringToFile(status ? "1" : "0", FOD_HBM_PATH);
-}
-
-void BiometricsFingerprint::disableHighBrightFod() {
-    std::lock_guard<std::mutex> lock(mSetHbmFodMutex);
-
-    if (!hbmFodEnabled)
-        return;
-
-    mMotoFingerprint->sendFodEvent(NOTIFY_FINGER_UP, {},
-                                   [](IMotFodEventResult, const hidl_vec<signed char> &) {});
-    setFodHbm(false);
-
-    hbmFodEnabled = false;
-}
-
-void BiometricsFingerprint::enableHighBrightFod() {
-    std::lock_guard<std::mutex> lock(mSetHbmFodMutex);
-
-    if (hbmFodEnabled)
-        return;
-
-    setFodHbm(true);
-    mMotoFingerprint->sendFodEvent(NOTIFY_FINGER_DOWN, {},
-                                   [](IMotFodEventResult, const hidl_vec<signed char> &) {});
-
-    hbmFodEnabled = true;
-}
-
 BiometricsFingerprint::BiometricsFingerprint() {
     biometrics_2_1_service = IBiometricsFingerprint_2_1::getService();
-    mMotoFingerprint = IMotoFingerPrint::getService();
-    hbmFodEnabled = false;
+    rbs_4_0_service = IBiometricsFingerprintRbs::getService();
 }
 
-Return<uint64_t> BiometricsFingerprint::setNotify(const sp<IBiometricsFingerprintClientCallback>& clientCallback) {
+Return<uint64_t> BiometricsFingerprint::setNotify(
+        const sp<IBiometricsFingerprintClientCallback>& clientCallback) {
     return biometrics_2_1_service->setNotify(clientCallback);
 }
 
@@ -84,7 +77,8 @@ Return<uint64_t> BiometricsFingerprint::preEnroll() {
     return biometrics_2_1_service->preEnroll();
 }
 
-Return<RequestStatus> BiometricsFingerprint::enroll(const hidl_array<uint8_t, 69>& hat, uint32_t gid, uint32_t timeoutSec) {
+Return<RequestStatus> BiometricsFingerprint::enroll(const hidl_array<uint8_t, 69>& hat,
+                                                    uint32_t gid, uint32_t timeoutSec) {
     return biometrics_2_1_service->enroll(hat, gid, timeoutSec);
 }
 
@@ -97,9 +91,8 @@ Return<uint64_t> BiometricsFingerprint::getAuthenticatorId() {
 }
 
 Return<RequestStatus> BiometricsFingerprint::cancel() {
-    auto ret = biometrics_2_1_service->cancel();
-    BiometricsFingerprint::onFingerUp();
-    return ret;
+    setHbmState(OFF);
+    return biometrics_2_1_service->cancel();
 }
 
 Return<RequestStatus> BiometricsFingerprint::enumerate() {
@@ -110,11 +103,13 @@ Return<RequestStatus> BiometricsFingerprint::remove(uint32_t gid, uint32_t fid) 
     return biometrics_2_1_service->remove(gid, fid);
 }
 
-Return<RequestStatus> BiometricsFingerprint::setActiveGroup(uint32_t gid, const hidl_string& storePath) {
+Return<RequestStatus> BiometricsFingerprint::setActiveGroup(uint32_t gid,
+                                                            const hidl_string& storePath) {
     return biometrics_2_1_service->setActiveGroup(gid, storePath);
 }
 
 Return<RequestStatus> BiometricsFingerprint::authenticate(uint64_t operationId, uint32_t gid) {
+    setHbmState(OFF);
     return biometrics_2_1_service->authenticate(operationId, gid);
 }
 
@@ -123,7 +118,8 @@ Return<bool> BiometricsFingerprint::isUdfps(uint32_t) {
 }
 
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, float) {
-    BiometricsFingerprint::enableHighBrightFod();
+    setHbmState(ON);
+    extraApiWrapper(101);
 
     std::thread([this]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -134,7 +130,23 @@ Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, floa
 }
 
 Return<void> BiometricsFingerprint::onFingerUp() {
-    BiometricsFingerprint::disableHighBrightFod();
+    setHbmState(OFF);
+    extraApiWrapper(102);
+    return Void();
+}
+
+Return<void> BiometricsFingerprint::extraApiWrapper(int cidValue) {
+    int cid[1] = {cidValue};
+
+    // Create a std::vector<uint8_t> to store the data from 'cid'
+    std::vector<uint8_t> cid_data(reinterpret_cast<uint8_t*>(cid),
+                                  reinterpret_cast<uint8_t*>(cid) + sizeof(cid));
+
+    // Create the hidl_vec<uint8_t> from the std::vector<uint8_t>
+    ::android::hardware::hidl_vec<uint8_t> hidl_cid = cid_data;
+
+    // Call extra_api with the correct input buffer and an empty lambda callback
+    rbs_4_0_service->extra_api(7, hidl_cid, [](const ::android::hardware::hidl_vec<uint8_t>&) {});
 
     return Void();
 }

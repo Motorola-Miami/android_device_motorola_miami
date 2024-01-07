@@ -20,7 +20,7 @@
 #include <android/hardware/biometrics/fingerprint/2.3/IBiometricsFingerprint.h>
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
-#include <com/motorola/hardware/biometric/fingerprint/1.0/IMotoFingerPrint.h>
+#include <vendor/egistec/hardware/fingerprint/4.0/IBiometricsFingerprintRbs.h>
 
 namespace android {
 namespace hardware {
@@ -29,26 +29,27 @@ namespace fingerprint {
 namespace V2_3 {
 namespace implementation {
 
-using IBiometricsFingerprint_2_1 = ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint;
-using ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback;
-using ::android::hardware::biometrics::fingerprint::V2_1::RequestStatus;
+using IBiometricsFingerprint_2_1 =
+        ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint;
+using ::android::sp;
 using ::android::hardware::hidl_array;
 using ::android::hardware::hidl_memory;
 using ::android::hardware::hidl_string;
 using ::android::hardware::hidl_vec;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
-using ::android::sp;
-using ::com::motorola::hardware::biometric::fingerprint::V1_0::IMotoFingerPrint;
-using ::com::motorola::hardware::biometric::fingerprint::V1_0::IMotFodEventType;
-using ::com::motorola::hardware::biometric::fingerprint::V1_0::IMotFodEventResult;
+using ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback;
+using ::android::hardware::biometrics::fingerprint::V2_1::RequestStatus;
+using ::vendor::egistec::hardware::fingerprint::V4_0::IBiometricsFingerprintRbs;
 
 struct BiometricsFingerprint : public IBiometricsFingerprint {
     BiometricsFingerprint();
     // Methods from ::V2_1::IBiometricsFingerprint follow.
-    Return<uint64_t> setNotify(const sp<IBiometricsFingerprintClientCallback>& clientCallback) override;
+    Return<uint64_t> setNotify(
+            const sp<IBiometricsFingerprintClientCallback>& clientCallback) override;
     Return<uint64_t> preEnroll() override;
-    Return<RequestStatus> enroll(const hidl_array<uint8_t, 69>& hat, uint32_t gid, uint32_t timeoutSec) override;
+    Return<RequestStatus> enroll(const hidl_array<uint8_t, 69>& hat, uint32_t gid,
+                                 uint32_t timeoutSec) override;
     Return<RequestStatus> postEnroll() override;
     Return<uint64_t> getAuthenticatorId() override;
     Return<RequestStatus> cancel() override;
@@ -62,15 +63,11 @@ struct BiometricsFingerprint : public IBiometricsFingerprint {
     Return<void> onFingerDown(uint32_t x, uint32_t y, float minor, float major) override;
     Return<void> onFingerUp() override;
 
-private:
-    void disableHighBrightFod();
-    void enableHighBrightFod();
+    Return<void> extraApiWrapper(int cidValue);
 
-    bool hbmFodEnabled;
-    std::mutex mSetHbmFodMutex;
-
+  private:
     sp<IBiometricsFingerprint_2_1> biometrics_2_1_service;
-    sp<IMotoFingerPrint> mMotoFingerprint;
+    sp<IBiometricsFingerprintRbs> rbs_4_0_service;
 };
 
 }  // namespace implementation

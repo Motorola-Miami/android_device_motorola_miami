@@ -28,7 +28,6 @@ PRODUCT_PACKAGES += \
     FrameworksResMiami \
     LineageSystemUIMiami \
     SettingsResMiami \
-    SettingsProviderResMiami \
     SystemUIResMiami \
     WifiResMiami
 

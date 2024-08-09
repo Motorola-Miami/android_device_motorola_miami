@@ -14,9 +14,6 @@ ro.vendor.audio.crystal_talk_record.supported=true
 ro.vendor.audio.crystal_talk.supported=true
 vendor.audio.feature.battery_listener.enable=false
 
-# Bluetooth
-bluetooth.device.default_name=moto edge 30 neo
-
 # Camera
 persist.vendor.motosxf.enable=true
 persist.vendor.camera.expose.aux=1

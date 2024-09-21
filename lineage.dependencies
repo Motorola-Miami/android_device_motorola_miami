@@ -1,0 +1,10 @@
+[
+  {
+    "repository": "Rakhshan7070/device_motorola_sm6375-common",
+    "target_path": "device/motorola/sm6375-common"
+  },
+  {
+    "repository": "Rakhshan7070/kernel_motorola_miami",
+    "target_path": "kernel/motorola/miami"
+  }
+]

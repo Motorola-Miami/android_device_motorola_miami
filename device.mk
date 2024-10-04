@@ -40,6 +40,7 @@ PRODUCT_PACKAGES += \
     LineageSystemUIMiami \
     SettingsResMiami \
     SettingsProviderResMiami \
+    SystemUIResMiami \
     WifiResMiami
 
 # Audio

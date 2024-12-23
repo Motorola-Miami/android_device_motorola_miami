@@ -276,6 +276,9 @@ vendor/lib64/vendor.qti.hardware.fingerprint@1.0.so
 system_ext/etc/permissions/com.android.hotwordenrollment.common.util.xml
 system_ext/framework/com.android.hotwordenrollment.common.util.jar
 
+# NFC
+-system_ext/app/NQNfcNci/NQNfcNci.apk
+
 # NFC configuration
 vendor/etc/libnfc-mtp-SN100-UICC.conf
 vendor/etc/libnfc-mtp-SN100.conf

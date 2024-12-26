@@ -20,7 +20,8 @@ PRODUCT_PACKAGES += \
     FrameworksResMiami \
     SettingsProviderResMiami \
     SettingsMiami \
-    SystemUIResMiami
+    SystemUIResMiami \
+    WifiResMiami
 
 # Audio
 PRODUCT_COPY_FILES += \

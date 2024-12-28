@@ -9,6 +9,9 @@ DEVICE_PATH := device/motorola/miami
 # Inherit from motorola sm6375-common
 include device/motorola/sm6375-common/BoardConfigCommon.mk
 
+# Audio (Dolby)
+AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := miami
 

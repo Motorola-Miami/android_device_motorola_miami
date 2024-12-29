@@ -48,3 +48,4 @@ VENDOR_SECURITY_PATCH := 2024-05-01
 
 # Inherit from the proprietary version
 -include vendor/motorola/miami/BoardConfigVendor.mk
+-include hardware/motorola/dolby/BoardConfigVendor.mk

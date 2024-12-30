@@ -5,7 +5,7 @@
 #
 
 # Inherit from motorola sm6375-common
--include device/motorola/sm6375-common/BoardConfigCommon.mk
+include device/motorola/sm6375-common/BoardConfigCommon.mk
 
 DEVICE_PATH := device/motorola/miami
 
@@ -45,4 +45,4 @@ TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 VENDOR_SECURITY_PATCH := 2024-05-01
 
 # Inherit from the proprietary version
--include vendor/motorola/miami/BoardConfigVendor.mk
+include vendor/motorola/miami/BoardConfigVendor.mk

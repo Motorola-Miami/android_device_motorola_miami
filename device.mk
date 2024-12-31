@@ -59,7 +59,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.nfc@1.2-service \
     com.android.nfc_extras \
-	libchrome.vendor \
+    libchrome.vendor \
+    NfcNci \
     SecureElement \
     Tag \
 

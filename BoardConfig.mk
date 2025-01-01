@@ -15,9 +15,6 @@ AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := miami
 
-# Display
-TARGET_SCREEN_DENSITY := 420
-
 # Fingerprint
 TARGET_SURFACEFLINGER_UDFPS_LIB := //$(DEVICE_PATH):libudfps_extension.miami
 SOONG_CONFIG_qtidisplay_udfps := true

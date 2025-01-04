@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 The LineageOS Project
+# Copyright (C) 2022-2024 The LineageOS Project
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -24,6 +24,6 @@ PRODUCT_MODEL := moto edge 30 neo
 PRODUCT_GMS_CLIENTID_BASE := android-motorola
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BuildDesc="miami_g-user 13 T1SSM33.1-121-4/4847b-0f0b43 release-keys" \
-    BuildFingerprint=motorola/miami_g/miami:13/T1SSMS33M.1-121-4-8/62b45a:user/release-keys \
+    BuildDesc="miami_g-user 14 U1SSMS34M.31-64-4-7 52f469 release-keys" \
+    BuildFingerprint=motorola/miami_g/miami:14/U1SSMS34M.31-64-4-7/52f469:user/release-keys \
     DeviceProduct=miami_g

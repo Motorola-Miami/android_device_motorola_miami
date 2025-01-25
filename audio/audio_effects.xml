@@ -15,6 +15,7 @@
         <library name="vqe" path="libswvqe.so"/>
         <library name="dap" path="libswdap.so"/>
         <!-- DOLBY END -->
+        <library name="v4a_re" path="libv4a_re.so"/>
     </libraries>
     <effects>
         <effect name="bassboost" library="bundle" uuid="8631f300-72e2-11df-b57e-0002a5d5c51b"/>
@@ -43,6 +44,7 @@
         <effect name="vqe" library="vqe" uuid="64a0f614-7fa4-48b8-b081-d59dc954616f"/>
         <effect name="dap" library="dap" uuid="9d4921da-8225-4f29-aefa-39537a04bcaa"/>
         <!-- DOLBY END -->
+        <effect name="v4a_standard_re" library="v4a_re" uuid="90380da3-8536-4744-a6a3-5731970e640f"/>
     </effects>
     <postprocess>
         <stream type="music">

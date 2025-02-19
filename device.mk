@@ -110,7 +110,5 @@ PRODUCT_COPY_FILES += \
 # Inherit from motorola sm6375-common
 $(call inherit-product, device/motorola/sm6375-common/common.mk)
 
-$(call inherit-product, hardware/motorola/ViPER4AndroidFX/setup.mk)
-
 # Inherit from vendor blobs
 $(call inherit-product, vendor/motorola/miami/miami-vendor.mk)

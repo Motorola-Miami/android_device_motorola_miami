@@ -25,7 +25,6 @@ DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest_miami.xml
 
 # Kernel
 BOARD_KERNEL_CMDLINE += androidboot.hab.product=miami
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 TARGET_KERNEL_CONFIG += vendor/ext_config/moto-holi-miami.config
 
 # Kernel Modules

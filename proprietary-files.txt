@@ -23,6 +23,12 @@ vendor/etc/acdbdata/nn_ns_models/fai__2.7.4_0.0__3.0.0_0.0__eai_1.10_enpu1.pmd
 vendor/etc/acdbdata/nn_vad_models/fai_3.0.0_0.0_eai_1.00.pmd
 
 # Audio configs
+vendor/etc/audio_ext_spkr.conf
+vendor/etc/audio_io_policy.conf
+vendor/etc/audio_platform_info.xml
+vendor/etc/audio_policy_volumes.xml
+vendor/etc/default_volume_tables.xml
+vendor/etc/mixer_paths.xml
 vendor/etc/sound_trigger_mixer_paths.xml
 vendor/etc/sound_trigger_platform_info.xml
 
@@ -56,8 +62,12 @@ vendor/lib64/libacdbloader.so
 # Camera
 vendor/etc/pwr/PowerFeatureConfig.xml
 vendor/etc/pwr/VideoPowerOptFeature.xml
+vendor/lib/libarcsoft_distortion_correction.so
+vendor/lib/libarcsoft_portrait_distortion_correction.so
+vendor/lib/libarcsoft_super_night_raw.so
 vendor/lib/libcamxexternalformatutils.so
 vendor/lib/libmotoisdataqueue.so
+vendor/lib/libmpbase.so
 vendor/lib64/com.qti.settings.mannar.so
 vendor/lib64/com.qti.stats.common.so
 vendor/lib64/com.qualcomm.mcx.distortionmapper.so
@@ -118,6 +128,7 @@ vendor/lib64/libofflinelog.so
 vendor/lib64/libopencv.so
 vendor/lib64/libopestriping.so
 vendor/lib64/libos.so
+vendor/lib64/libpowercore.so
 vendor/lib64/libqll10.so
 vendor/lib64/libqllengine.so
 vendor/lib64/libremosaic_wrapper.so
@@ -125,6 +136,7 @@ vendor/lib64/libswregistrationalgo.so
 vendor/lib64/libsynx.so
 vendor/lib64/libtfestriping.so
 vendor/lib64/libthreadutils.so
+vendor/lib64/libvideooptfeature.so
 vendor/lib64/libvidhance.so
 vendor/lib64/libvidhance_active_ois.so
 vendor/lib64/libvidhance_dmbr.so
@@ -284,13 +296,8 @@ product/etc/permissions/com.motorola.camera3.lens.xml:vendor/etc/permissions/com
 product/etc/permissions/com.motorola.moto-uirefresh.xml
 
 # NFC configuration
-vendor/etc/libnfc-mtp-SN100-UICC.conf
-vendor/etc/libnfc-mtp-SN100.conf
-vendor/etc/libnfc-mtp-SN100_38_4MHZ.conf
-vendor/etc/libnfc-nxp-pnscr.conf
-vendor/etc/libnfc-qrd-SN100.conf
-vendor/etc/libnfc-qrd-SN100_38_4MHZ.conf
-vendor/etc/nfc_calibration.txt
+vendor/etc/libnfc-nci_PN557.conf:vendor/etc/libnfc-nci.conf
+vendor/etc/libnfc-PN557.conf:vendor/etc/libnfc-nxp.conf
 
 # NFC firmware
 vendor/lib/libpn557_fw.so

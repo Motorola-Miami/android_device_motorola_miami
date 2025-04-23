@@ -31,9 +31,6 @@ PRODUCT_PACKAGES += \
     SystemUIResMiami \
     WifiResMiami
 
-# Dolby
-$(call inherit-product, hardware/motorola/dolby/setup.mk)
-
 # Display
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/display_id_4630947043778501761.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630947043778501761.xml

@@ -51,4 +51,3 @@ VENDOR_SECURITY_PATCH := $(BOOT_SECURITY_PATCH)
 
 # inherit from the proprietary version
 include vendor/motorola/miami/BoardConfigVendor.mk
--include hardware/motorola/dolby/BoardConfigVendor.mk

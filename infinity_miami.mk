@@ -11,8 +11,26 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from miami device
 $(call inherit-product, device/motorola/miami/device.mk)
 
+# Addons
+TARGET_HAS_UDFPS := true
+
+# Whether you are compiling being an OFFICIAL Maintainer:
+INFINITY_BUILD_TYPE := UNOFFICIAL
+
+# Maintainer Name
+INFINITY_MAINTAINER := Rakhshan
+
+# Whether the package includes System BLURS
+TARGET_SUPPORTS_BLUR := true
+
+# Whether the compiled package ships Widely Used Minimal Google Apps:
+WITH_GAPPS := true
+
+# Whether the compiled package ships Complete present Google Apps:
+TARGET_SHIPS_FULL_GAPPS := true
+
 # Inherit some common Lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+$(call inherit-product, vendor/infinity/config/common_full_phone.mk)
 
 PRODUCT_NAME := lineage_miami
 PRODUCT_DEVICE := miami

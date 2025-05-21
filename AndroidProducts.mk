@@ -5,9 +5,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/aicp_miami.mk
+    $(LOCAL_DIR)/arrow_miami.mk
 
 COMMON_LUNCH_CHOICES := \
-    aicp_miami-user \
-    aicp_miami-userdebug \
-    aicp_miami-eng
+    arrow_miami-user \
+    arrow_miami-userdebug \
+    arrow_miami-eng

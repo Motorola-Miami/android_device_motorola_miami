@@ -11,21 +11,19 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from miami device
 $(call inherit-product, device/motorola/miami/device.mk)
 
-# Inherit some common Lineage stuff.
-$(call inherit-product, vendor/aicp/config/common_full_phone.mk)
+# Inherit some common ArrowOS stuff.
+TARGET_BOOT_ANIMATION_RES := 1080
+TARGET_INCLUDE_PIXEL_CHARGER := true
+$(call inherit-product, vendor/arrow/config/common.mk)
 
 # Device identifier. This must come after all inclusions.
-PRODUCT_NAME := aicp_miami
+PRODUCT_NAME := arrow_miami
 PRODUCT_DEVICE := miami
 PRODUCT_MANUFACTURER := motorola
 PRODUCT_BRAND := motorola
 PRODUCT_MODEL := moto edge 30 neo
 
 PRODUCT_GMS_CLIENTID_BASE := android-motorola
-
-# AICP Device Maintainers
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    DEVICE_MAINTAINERS="Julian Veit (Claymore1297)"
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     TARGET_PRODUCT=miami_g \
